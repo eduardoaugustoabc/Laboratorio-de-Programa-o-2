@@ -38,4 +38,8 @@ public class PessoasService {
 	public String listarComentariosPessoa(String cpf) {
 		return this.repositorioPessoas.get(cpf).listaComentarios();
 	}
+	
+	public Map<String, Pessoas> getRepositorio(){
+		return this.repositorioPessoas;
+	}
 }
