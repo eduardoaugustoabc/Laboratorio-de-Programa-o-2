@@ -1,4 +1,4 @@
-package atividades;
+package sapo.atividades;
 
 import java.util.Map;
 
@@ -64,8 +64,11 @@ public class Atividade {
 		return this.tarefas;
 	}
 	
-	//AJEITAR ESSE METODO PRA FUNCIONAR, SO UMA IDEIA
-	public void concluirTarefa(String idTarefa) {
-		this.tarefas.get(idTarefa);
+	public Tarefa getTarefa(String idTarefa) {
+		return this.tarefas.get(idTarefa);
+	}
+	
+	public void removerTarefa(String idTarefa) {
+		this.tarefas.remove(idTarefa);
 	}
 }

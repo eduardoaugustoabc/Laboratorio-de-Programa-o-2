@@ -1,4 +1,4 @@
-package atividades;
+package sapo.atividades;
 
 import java.util.Map;
 
@@ -9,11 +9,10 @@ public class TarefaService {
 	private Atividade atv;
 	
 	public TarefaService() {
-		this.ar = new AtividadesRepository();
 		this.atv = new Atividade();
 	}
 	
-	public String cadastrarTarefa(String atividadeId, String nome, String[] habilidades){
+	/**public String cadastrarTarefa(String atividadeId, String nome, String[] habilidades){
 		this.ar.getAtividade(atividadeId).
-	}
+	}*/
 }
