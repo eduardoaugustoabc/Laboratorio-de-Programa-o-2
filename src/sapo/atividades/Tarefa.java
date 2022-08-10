@@ -1,4 +1,4 @@
-package atividades;
+package sapo.atividades;
 
 public class Tarefa {
 	

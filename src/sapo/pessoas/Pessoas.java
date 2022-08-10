@@ -1,4 +1,4 @@
-package sapo;
+package sapo.pessoas;
 
 import java.util.ArrayList;
 
@@ -65,6 +65,27 @@ public class Pessoas {
 		}
 		return representacao;
 	}
+	
+	public ArrayList<String> getTermos() {
+		ArrayList<String> representacao = new ArrayList<String>();
+		representacao.add(this.nome);
+		representacao.add(this.cpf);
+		for(int i=0; i < this.habilidades.length;i++) {
+			String[] habilidade = this.habilidades[i].split(" ");
+			for(int j = 0; j < habilidade.length;j ++) {
+				representacao.add(habilidade[j]);
+			}
+		}
+		
+		
+		return representacao;
+	}
+	
+//	public Set<Documento> busca(String termo) {
+//		return this.documentosList.stream()
+//					.filter((x) -> Arrays.binarySearch(x.getTexto(), termo) > 0)
+//					.collect(Collectors.toSet());
+//	}
 	
 	
 }

@@ -1,4 +1,4 @@
-package atividades;
+package sapo.atividades;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class AtividadeService {
 	public void encerrarAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		//ver se ela possui tarefas pendentes.
-		//se houver, lançar excecao como manda a documentação.
+		//se houver, lanï¿½ar excecao como manda a documentaï¿½ï¿½o.
 		if (!atv.getStatus().equals("encerrada")) {
 			atv.setStatus("encerrada");
 		}
@@ -30,7 +30,7 @@ public class AtividadeService {
 	public void desativarAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		//ver se ela possui tarefas pendentes.
-		//se houver, lançar excecao como manda a documentação.
+		//se houver, lanï¿½ar excecao como manda a documentaï¿½ï¿½o.
 		if (!atv.getStatus().equals("desativada")) {
 			atv.setStatus("desativada");
 		}
@@ -39,7 +39,7 @@ public class AtividadeService {
 	public void reabrirAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		//ver se ela possui tarefas pendentes.
-		//se houver, lançar excecao como manda a documentação.
+		//se houver, lanï¿½ar excecao como manda a documentaï¿½ï¿½o.
 		if (!atv.getStatus().equals("aberta")) {
 			atv.setStatus("aberta");
 		}
