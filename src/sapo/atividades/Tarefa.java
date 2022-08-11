@@ -14,6 +14,10 @@ public class Tarefa {
 		this.concluido = false;
 	}
 	
+	public String getNome() {
+		return this.nome;
+	}
+	
 	public void setNome(String novoNome) {
 		this.nome = novoNome;
 	}
