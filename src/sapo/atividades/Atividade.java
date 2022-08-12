@@ -12,6 +12,7 @@ public class Atividade {
 	private String nome;
 	private String descricao;
 	private String cpf;
+	private String meuHashCode;
 	private String status;
 	private Map<String, Tarefa> tarefas;
 	
@@ -27,6 +28,7 @@ public class Atividade {
 		this.descricao = descricao;
 		this.cpf = cpf;
 		this.status = "aberta";
+		this.meuHashCode = this.meuHashCode();
 	}
 	
 	/**
@@ -153,5 +155,13 @@ public class Atividade {
 		}else {
 			return true;
 		}
+	}
+	
+	public String getMeuHashCode() {
+		return this.meuHashCode;
+	}
+	
+	public void setMeuHashCode(String ans) {
+		this.meuHashCode = ans;
 	}
 }

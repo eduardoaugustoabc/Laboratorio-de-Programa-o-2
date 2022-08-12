@@ -50,6 +50,7 @@ public class AtividadeService {
 		String ans = "";
 		ans += a.meuHashCode() + "-";
 		ans += Integer.toString(this.repositorioAtividades.size());
+		a.setMeuHashCode(ans);
 		return ans;
 	}
 	
