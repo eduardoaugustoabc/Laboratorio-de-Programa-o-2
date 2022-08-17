@@ -1,10 +1,11 @@
 package sapo.atividades;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sapo.pessoas.*;
 
-import sapo.PessoasService;
 
 /**
  * AtividadeService é responsável por centralizar toda as operações de lógica
@@ -73,6 +74,10 @@ public class AtividadeService {
 	 */
 	public void encerrarAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
+		//ver se ela possui tarefas pendentes.
+		//se houver, lan�ar excecao como manda a documenta��o.
+		if (!atv.getStatus().equals("encerrada")) {
+			atv.setStatus("encerrada");
 		if (atv.validaTarefas() == true) {
 			if (!atv.getStatus().equals("encerrada")) {
 				atv.setStatus("encerrada");
@@ -81,6 +86,9 @@ public class AtividadeService {
 			}
 		}else {
 			throw new IllegalArgumentException("Atividade possui tarefas pendentes!");
+
+		}
+	
 		}
 	}
 	
@@ -91,6 +99,11 @@ public class AtividadeService {
 	 */
 	public void desativarAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
+
+		//ver se ela possui tarefas pendentes.
+		//se houver, lançar excecao como manda a documenta��o.
+		if (!atv.getStatus().equals("desativada")) {
+			atv.setStatus("desativada");
 		if (atv.validaTarefas() == true) {
 			if (!atv.getStatus().equals("desativada")) {
 				atv.setStatus("desativada");
@@ -99,6 +112,8 @@ public class AtividadeService {
 			}
 		}else {
 			throw new IllegalArgumentException("Atividade possui tarefas pendentes!");
+
+		}
 		}
 	}
 	
@@ -109,6 +124,11 @@ public class AtividadeService {
 	 */
 	public void reabrirAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
+
+		//ver se ela possui tarefas pendentes.
+		//se houver, lan�ar excecao como manda a documenta��o.
+
+
 		if (!atv.getStatus().equals("aberta")) {
 			atv.setStatus("aberta");
 		}else {
@@ -282,5 +302,17 @@ public class AtividadeService {
 		Atividade atv = this.repositorioAtividades.get(idAtv);
 		Tarefa trf = atv.getTarefa(idTarefa);
 		trf.removePessoa(cpf);
+	}
+
+	public ArrayList<Tarefa> buscaTarefas(String id ,String termos){
+		return this.ar.buscaTarefas(id, termos);
+	}
+	
+	public ArrayList<Tarefa> buscaTarefas(String termos){
+		return this.ar.buscaTarefas(termos);
+	}
+	
+	public ArrayList<Atividade> buscaAtividade(String termos) {
+		return this.ar.buscaAtividade(termos);
 	}
 }

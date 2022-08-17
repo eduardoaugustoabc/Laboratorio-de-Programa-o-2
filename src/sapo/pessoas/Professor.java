@@ -1,4 +1,4 @@
-package sapo;
+package sapo.pessoas;
 
 public class Professor implements Funcao {
 

@@ -1,4 +1,6 @@
 package sapo.atividades;
+import java.util.ArrayList;
+
 
 import java.util.List;
 
@@ -51,5 +53,15 @@ public class Tarefa {
 
 	public void removePessoa(String cpf){
 		this.cpfs.remove(cpf);
+	}
+	
+	public ArrayList<String> getTermos(){
+		ArrayList<String> representacao = new ArrayList<String>();
+		String[] nomeSplit = this.nome.split(" ");
+		for(int i=0; i < nomeSplit.length;i++) {
+		
+			representacao.add(nomeSplit[i]);
+		}
+		return representacao;
 	}
 }

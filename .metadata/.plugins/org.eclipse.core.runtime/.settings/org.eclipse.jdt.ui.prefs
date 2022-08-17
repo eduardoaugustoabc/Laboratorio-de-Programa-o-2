@@ -1,5 +1,9 @@
 content_assist_proposals_background=255,255,255
+<<<<<<< HEAD
+content_assist_proposals_foreground=48,48,48
+=======
 content_assist_proposals_foreground=0,0,0
+>>>>>>> 0fc1c5f206d6870f1c5051d8bf3da86e18b151db
 eclipse.preferences.version=1
 org.eclipse.jdt.internal.ui.navigator.layout=2
 org.eclipse.jdt.internal.ui.navigator.librariesnode=true

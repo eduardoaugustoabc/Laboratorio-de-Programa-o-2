@@ -1,17 +1,31 @@
-package sapo;
+package sapo.pessoas;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PessoasService {
 	
-	private Map<String, Pessoas> repositorioPessoas;
+
+	private PessoasRepository repositorioPessoas;
 	
 	public PessoasService() {
-		
+		this.repositorioPessoas = new PessoasRepository();
 	}
 	
 	public void cadastrarPessoa(String cpf, String nome , String[] habilidades) {
+<<<<<<< HEAD:src/sapo/PessoasService.java
 		this.repositorioPessoas.put(cpf, new Pessoas(cpf,nome,habilidades));
+=======
+		if (cpf.equals("") || nome.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			
+		
+			Pessoas pessoa = new Pessoas(cpf,nome,habilidades);
+			this.repositorioPessoas.put(cpf, pessoa);
+		}
+>>>>>>> 1e5b54d82d7d98e2d010480f826226dac17a169a:src/sapo/pessoas/PessoasService.java
 	}
 	
 	public String exibirPessoa(String cpf) {
@@ -30,17 +44,27 @@ public class PessoasService {
 		this.repositorioPessoas.remove(cpf);
 	}
 	
-	public void adicionarComentarioPessoa(String cpf, String comentario, String autorCpf) {
-		String nomeAutor = this.repositorioPessoas.get(autorCpf).getNome();
-		this.repositorioPessoas.get(cpf).adicionarComentarioPessoa(autorCpf, comentario);
-	}
+
+	public void adicionarComentarioPessoa(String cpf, String comentario, String autorNome) {
+		
+		this.repositorioPessoas.get(cpf).adicionarComentarioPessoa(autorNome, comentario);
+	
+		
+	}	
+	
 	
 	public String listarComentariosPessoa(String cpf) {
 		return this.repositorioPessoas.get(cpf).listaComentarios();
 	}
 	
 	public Map<String, Pessoas> getRepositorio(){
-		return this.repositorioPessoas;
+		return this.repositorioPessoas.getMap();
+
+	}
+	
+	public ArrayList<Pessoas> busca(String termos) {
+		return this.repositorioPessoas.busca(termos);
+
 	}
 
 	public void cadastrarAluno(String cpf, String nome, String matr, int periodo, String[] habilidades){

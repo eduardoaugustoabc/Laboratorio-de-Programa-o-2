@@ -1,6 +1,7 @@
 package sapo.atividades;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -18,6 +19,7 @@ public class Atividade {
 	private Map<String, Tarefa> tarefas;
 	private List<String> nomesTarefas;
 	private List<String> idsTarefas;
+	private ArrayList<Tarefa> tarefasListadas; 
 	
 	/**
 	 * Construtor padrão, criando uma atividade com suas respectivas
@@ -32,6 +34,7 @@ public class Atividade {
 		this.cpf = cpf;
 		this.status = "aberta";
 		this.meuHashCode = this.meuHashCode();
+		this.tarefasListadas = new ArrayList<Tarefa>();
 	}
 	
 	/**
@@ -191,5 +194,33 @@ public class Atividade {
 
 	public List<String> getIdsTarefas(){
 		return this.idsTarefas;
+	}
+	public ArrayList<String> getTermos() {
+		ArrayList<String> representacao = new ArrayList<String>();
+		representacao.add(this.meuHashCode);
+		String codigo = this.meuHashCode.substring(0, 2);
+		representacao.add(codigo);
+		String codigo2 = this.meuHashCode.substring(4);
+		representacao.add(codigo2);
+		String[] descricaoSplit = this.descricao.split(" ");
+		for(int i=0; i < descricaoSplit.length;i++) {
+		
+			representacao.add(descricaoSplit[i]);
+			}
+		
+		String[] nomeSplit = this.nome.split(" ");
+		for(int i=0; i < nomeSplit.length;i++) {
+		
+			representacao.add(nomeSplit[i]);
+		}
+		
+		
+	
+		
+		return representacao;
+	}
+	
+	public ArrayList<Tarefa> getTarefasListada() {
+		return this.tarefasListadas;
 	}
 }
