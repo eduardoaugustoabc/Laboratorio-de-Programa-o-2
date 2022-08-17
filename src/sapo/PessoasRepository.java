@@ -1,4 +1,4 @@
-package sapo.pessoas;
+package sapo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,19 +35,13 @@ public class PessoasRepository {
 	public ArrayList<Pessoas> busca(String termos) {
 		String[] termosArray = termos.split(" ");
 		ArrayList<Pessoas> pessoasTermos = new ArrayList<Pessoas>();
-		for(int b = 0 ; b < this.listaPessoas.size(); b ++) {
-			pessoasTermos.add(this.listaPessoas.get(b));
-			System.out.println(pessoasTermos.get(b));
-		}
-		
-			for(int a = 0 ; a < pessoasTermos.size(); a ++) {
-				
-				for(int u = 0; u < termosArray.length; u++) {
-					if(!pessoasTermos.get(a).getTermos().contains(termosArray[u])) {
-						pessoasTermos.remove(a);
-					}
+		pessoasTermos.addAll(this.listaPessoas);
+		for(int a = 0 ; a < pessoasTermos.size(); a ++) {
+			for(int u = 0; u < termosArray.length; u++)
+				if(!pessoasTermos.get(a).getTermos().contains(termosArray[u])) {
+					pessoasTermos.remove(a);
 				}
-			}
+		}
 		return pessoasTermos;
 		
 		

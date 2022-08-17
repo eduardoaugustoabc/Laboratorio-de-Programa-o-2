@@ -1,9 +1,11 @@
 package sapo.pessoas;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PessoasService {
 	
+
 	private PessoasRepository repositorioPessoas;
 	
 	public PessoasService() {
@@ -11,7 +13,15 @@ public class PessoasService {
 	}
 	
 	public void cadastrarPessoa(String cpf, String nome , String[] habilidades) {
-		this.repositorioPessoas.put(nome, new Pessoas(cpf,nome,habilidades));
+		if (cpf.equals("") || nome.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			
+		
+			Pessoas pessoa = new Pessoas(cpf,nome,habilidades);
+			this.repositorioPessoas.put(cpf, pessoa);
+		}
 	}
 	
 	public String exibirPessoa(String cpf) {
@@ -30,10 +40,14 @@ public class PessoasService {
 		this.repositorioPessoas.remove(cpf);
 	}
 	
+
 	public void adicionarComentarioPessoa(String cpf, String comentario, String autorNome) {
 		
 		this.repositorioPessoas.get(cpf).adicionarComentarioPessoa(autorNome, comentario);
-	}
+	
+		
+	}	
+	
 	
 	public String listarComentariosPessoa(String cpf) {
 		return this.repositorioPessoas.get(cpf).listaComentarios();
@@ -41,5 +55,11 @@ public class PessoasService {
 	
 	public Map<String, Pessoas> getRepositorio(){
 		return this.repositorioPessoas.getMap();
+
+	}
+	
+	public ArrayList<Pessoas> busca(String termos) {
+		return this.repositorioPessoas.busca(termos);
+
 	}
 }

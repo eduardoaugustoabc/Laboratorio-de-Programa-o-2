@@ -1,67 +1,301 @@
 package sapo.atividades;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import sapo.pessoas.*;
+
+
+/**
+ * AtividadeService é responsável por centralizar toda as operações de lógica
+ * das atividades.
+ * 
+ * O AtividadeService tem como atribuições validar, manejar e alterar as atividades
+ * em questão, bem como cadastrá-las no repositório de atividades.
+ * 
+ * Além disso trata de operações das tarefas, também, visto que essas estão
+ * presentes dentro de cada atividade e são, como as atividades, tratadas,
+ * validadas e cadastradas no AtividadeService.
+ */
 
 public class AtividadeService {
 	
+
 	private AtividadesRepository ar;
 	private Map<String, Atividade> repositorioAtividades;
+	private int concluidas;
+	private List<String> nomesTarefas;
+	private List<String> idsTarefas;
+	private PessoasService ps;
 	
+	/**
+	 * Construtor padrão, criando também um PessoasService para auxiliá-lo
+	 * a realizar as operações das atividades que interagem com alguma Pessoa,
+	 * bem como preparando o repositório de atividades.
+	 */
 	public AtividadeService() {
 		this.repositorioAtividades = new HashMap<String, Atividade>();
+		this.ps = new PessoasService();
+		//this.ar = new AtividadesRepository();
 	}
 	
+	/**
+	 * Método responsável pela complementação da id da atividade, visto que é
+	 * necessária a informação da quantidade de atividades cadastradas, que está
+	 * presente apenas no repositório de atividades.
+	 * @param a atividade a ter a id complementada.
+	 * @return id da atividade.
+	 */
+	public String completaHashCode(Atividade a) {
+		String ans = "";
+		ans += a.meuHashCode() + "-";
+		ans += Integer.toString(this.repositorioAtividades.size());
+		a.setMeuHashCode(ans);
+		return ans;
+	}
+	
+	/**
+	 * Realiza o cadastro de uma atividade no sistema, retornando a sua id em formato
+	 * de string e recebendo como parâmetro suas informações.
+	 * @param nome nome da atividade.
+	 * @param descricao descrição da atividade.
+	 * @param cpf cpf do responsável pela atividade.
+	 * @return id da atividade.
+	 */
 	public String cadastrarAtividade(String nome, String descricao, String cpf) {
 		Atividade atv1 = new Atividade(nome, descricao, cpf);
 		this.repositorioAtividades.put(ar.completaHashCode(atv1), atv1);
 		return ar.completaHashCode(atv1);
 	}
 	
+	/**
+	 * Realiza o encerramento da atividade, impossibilitando-a de receber novas 
+	 * tarefas.
+	 * @param atividadeId id da atividade a ser tratada.
+	 */
 	public void encerrarAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		//ver se ela possui tarefas pendentes.
 		//se houver, lan�ar excecao como manda a documenta��o.
 		if (!atv.getStatus().equals("encerrada")) {
 			atv.setStatus("encerrada");
+		if (atv.validaTarefas() == true) {
+			if (!atv.getStatus().equals("encerrada")) {
+				atv.setStatus("encerrada");
+			}else {
+				throw new IllegalArgumentException("Atividade j� encerrada!");
+			}
+		}else {
+			throw new IllegalArgumentException("Atividade possui tarefas pendentes!");
+
+		}
+	
 		}
 	}
 	
+	/**
+	 * Realiza a desativação da atividade, impossibilitando-a de receber novas 
+	 * tarefas.
+	 * @param atividadeId id da atividade a ser tratada.
+	 */
 	public void desativarAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
+
 		//ver se ela possui tarefas pendentes.
 		//se houver, lan�ar excecao como manda a documenta��o.
 		if (!atv.getStatus().equals("desativada")) {
 			atv.setStatus("desativada");
+		if (atv.validaTarefas() == true) {
+			if (!atv.getStatus().equals("desativada")) {
+				atv.setStatus("desativada");
+			}else {
+				throw new IllegalArgumentException("Atividade j� desativada!");
+			}
+		}else {
+			throw new IllegalArgumentException("Atividade possui tarefas pendentes!");
+
+		}
 		}
 	}
 	
+	/**
+	 * Realiza a reabertura da atividade, possibilitando-a de voltar
+	 * a receber novas tarefas.
+	 * @param atividadeId id da atividade a ser tratada.
+	 */
 	public void reabrirAtividade(String atividadeId) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
+
 		//ver se ela possui tarefas pendentes.
 		//se houver, lan�ar excecao como manda a documenta��o.
+
+
 		if (!atv.getStatus().equals("aberta")) {
 			atv.setStatus("aberta");
+		}else {
+			throw new IllegalArgumentException("Atividade j� aberta!");
 		}
 	}
 	
+	/**
+	 * Realiza a exibição da representação textual de determinada
+	 * atividade.
+	 * @param atividadeId id da atividade a ser tratada.
+	 * @return a representação textual da atividade em questão.
+	 */
 	public String exibirAtividade(String atividadeId) {
+		String exibicao = "";
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
+		String hashCompleto = this.completaHashCode(atv);
+		exibicao += hashCompleto + ": " + atv.getNome() + "\n Respons�vel: ";
+		exibicao += "pessoa \n" + "=== \n" + atv.getDescricao() + "\n === \\n";
+		exibicao += "Tarefas: " + Integer.toString(this.concluidas) + "/";
+		exibicao += Integer.toString(atv.getTarefas().size()) + "\n";
 		String exibition = atv.toString();
 		return exibition;
 	}
 	
+	/**
+	 * Realiza a alteração da descrição da atividade.
+	 * @param atividadeId id da atividade a ser tratada.
+	 * @param descricao nova descrição da atividade.
+	 */
 	public void alterarDescricaoAtividade(String atividadeId,String descricao) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		atv.setDescricao(descricao);
 	}
 	
+	/**
+	 * Realiza o cadastro de uma tarefa em determinada atividade,
+	 * retornando a sua id em formato de string e recebendo como 
+	 * parâmetro suas informações.
+	 * @param atividadeId id da atividade a ser tratada.
+	 * @param nome nome da tarefa. 
+	 * @param habilidades habilidades competentes à tarefa.
+	 * @return id da tarefa.
+	 */
 	public String cadastraTarefa(String atividadeId, String nome, String[] habilidades) {
 		String trfId = "";
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		Tarefa tf1 = new Tarefa(nome, habilidades);
 		trfId = atividadeId + "-" + Integer.toString(atv.getTarefas().size());
-		atv.getTarefas().put(trfId, tf1);
+		if (atv.getStatus().equals("aberta")) {
+			atv.getTarefas().put(trfId, tf1);
+			this.nomesTarefas.add(tf1.getNome());
+			this.idsTarefas.add(trfId);
+		}else {
+			throw new IllegalArgumentException("Atividade n�o est� aberta!");
+		}
 		return trfId;
 	}
+	
+	//TEM QUE ESTAR EM ATIVIDADE PRAS TAREFAS SEREM SO DE UMA ATIVIDADE
+	public String listaTarefas() {
+		String res = "";
+		for (int i = this.nomesTarefas.size() - 1; i > this.nomesTarefas.size() - 4; i--) {
+			res += "- " +  this.nomesTarefas.get(i) + " - " + this.idsTarefas.get(i) + "\n";
+		}
+		return res;
+	}
+	
+	/**
+	 * Realiza a alteração do nome da tarefa.
+	 * @param idTarefa id da tarefa a ser tratada.
+	 * @param novoNome novo nome da tarefa.
+	 */
+	public void alterarNomeTarefa(String idTarefa, String novoNome) {
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		trf.setNome(novoNome);
+	}
+	
+	/**
+	 * Realiza a alteração das habilidades de determinada tarefa.
+	 * @param idTarefa id da tarefa a ser tratada.
+	 * @param habilidades novas habilidades competentes à tarefa.
+	 */
+	public void alterarHabilidadesTarefa(String idTarefa, String[] habilidades) {
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		trf.setHabilidades(habilidades);
+	}
+	
+	/**
+	 * Realiza a adição de horas a determinada tarefa.
+	 * @param idTarefa id da tarefa a ser tratada.
+	 * @param horas horas a serem acrescentadas a determinada tarefa.
+	 */
+	public void adicionarHorasTarefa(String idTarefa, int horas) {
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		if (trf.getConcluido() == false) {
+			trf.aumentarHoras(horas);
+		}else {
+			throw new IllegalArgumentException("Tarefa j� conclu�da!");
+		}
+	}
+	
+	/**
+	 * Realiza a remoção de horas de determinada tarefa.
+	 * @param idTarefa id da tarefa a ser tratada.
+	 * @param horas horas a serem removidas de determinada tarefa.
+	 */
+	public void removerHorasTarefa(String idTarefa, int horas) {
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		if (trf.getConcluido() == false) {
+			trf.removerHoras(horas);
+		}else {
+			throw new IllegalArgumentException("Tarefa j� conclu�da!");
+		}
+	}
+	
+	/**
+	 * Realiza a conclusão de determinada tarefa.
+	 * @param idTarefa id da tarefa a ser tratada.
+	 */
+	//VALIDAR SE JÁ ESTAVA CONCLUIDA OU NÃO.
+	public void concluirTarefa(String idTarefa) {
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		this.concluidas += 1;
+		trf.setConcluido();
+	}
+	
+	/**
+	 * Realiza a remoção de determinada tarefa de determinada
+	 * atividade.
+	 * @param idTarefa id da tarefa a ser tratada.
+	 */
+	public void removerTarefa(String idTarefa) {
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		atv.removerTarefa(idTarefa);
+	}
+	
+	public ArrayList<Tarefa> buscaTarefas(String id ,String termos){
+		return this.ar.buscaTarefas(id, termos);
+	}
+	
+	public ArrayList<Tarefa> buscaTarefas(String termos){
+		return this.ar.buscaTarefas(termos);
+	}
+	
+	public ArrayList<Atividade> buscaAtividade(String termos) {
+		return this.ar.buscaAtividade(termos);
+	}
+	
+	
 }
