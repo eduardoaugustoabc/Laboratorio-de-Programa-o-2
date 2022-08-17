@@ -2,10 +2,10 @@ package sapo;
 
 public class Aluno implements Funcao {
 
-	private int matr;
+	private String matr;
     private int periodo;
 
-	public Aluno(int matr, int periodo) {
+	public Aluno(String matr, int periodo) {
 		this.matr = matr;
         this.periodo = periodo;
 	}

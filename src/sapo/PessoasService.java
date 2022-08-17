@@ -43,7 +43,7 @@ public class PessoasService {
 		return this.repositorioPessoas;
 	}
 
-	public void cadastrarAluno(String cpf, String nome, int matr, int periodo, String[] habilidades){
+	public void cadastrarAluno(String cpf, String nome, String matr, int periodo, String[] habilidades){
 		Pessoas aluno = new Pessoas(cpf, nome, habilidades, new Aluno(matr, periodo));
 		this.repositorioPessoas.put(cpf, aluno);
 	}
@@ -55,7 +55,17 @@ public class PessoasService {
 
 	public void definirFuncaoProfessor(String cpf, int siape, String[] disciplinas){
 		Pessoas atual = this.getPessoa(cpf);
-		//atual.setProfessor(f);
+		atual.setProfessor(siape, disciplinas);
+	}
+
+	public void definirFuncaoAluno(String cpf, String matr, int periodo){
+		Pessoas atual = this.getPessoa(cpf);
+		atual.setAluno(matr, periodo);
+	}
+
+	public void removerFuncao(String cpf){
+		Pessoas atual = this.getPessoa(cpf);
+		atual.removerFuncao();
 	}
 
 	public Pessoas getPessoa(String cpf){

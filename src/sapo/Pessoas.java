@@ -74,7 +74,15 @@ public class Pessoas {
 	}
 
 	public void setProfessor(int siape, String[] disciplinas){
-		//this.f = f;
+		this.f = new Professor(siape, disciplinas);
+	}
+
+	public void setAluno(String matr, int periodo){
+		this.f = new Aluno(matr, periodo);
+	}
+
+	public void removerFuncao(){
+		this.f = null;
 	}
 	
 	public String toStringBasico(){
