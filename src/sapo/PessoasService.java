@@ -11,7 +11,7 @@ public class PessoasService {
 	}
 	
 	public void cadastrarPessoa(String cpf, String nome , String[] habilidades) {
-		this.repositorioPessoas.put(nome, new Pessoas(cpf,nome,habilidades));
+		this.repositorioPessoas.put(cpf, new Pessoas(cpf,nome,habilidades));
 	}
 	
 	public String exibirPessoa(String cpf) {
@@ -41,5 +41,24 @@ public class PessoasService {
 	
 	public Map<String, Pessoas> getRepositorio(){
 		return this.repositorioPessoas;
+	}
+
+	public void cadastrarAluno(String cpf, String nome, int matr, int periodo, String[] habilidades){
+		Pessoas aluno = new Pessoas(cpf, nome, habilidades, new Aluno(matr, periodo));
+		this.repositorioPessoas.put(cpf, aluno);
+	}
+
+	public void cadastrarProfessor(String cpf, String nome, int siape, String[] disciplinas){
+		Pessoas professor = new Pessoas(cpf, nome, disciplinas, new Professor(siape, disciplinas));
+		this.repositorioPessoas.put(cpf, professor);
+	}
+
+	public void definirFuncaoProfessor(String cpf, int siape, String[] disciplinas){
+		Pessoas atual = this.getPessoa(cpf);
+		//atual.setProfessor(f);
+	}
+
+	public Pessoas getPessoa(String cpf){
+		return this.repositorioPessoas.get(cpf);
 	}
 }

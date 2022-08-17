@@ -8,12 +8,19 @@ public class Pessoas {
 	private String nome;
 	private String[] habilidades;
 	private ArrayList<String> comentarios;
+	private Funcao f;
 	
 	public Pessoas(String cpf, String nome, String[] habilidades) {
 		this.cpf = cpf;
 		this.habilidades = habilidades;
 		this.nome = nome;
-		
+	}
+
+	public Pessoas(String cpf, String nome, String[] habilidades, Funcao f) {
+		this.cpf = cpf;
+		this.habilidades = habilidades;
+		this.nome = nome;
+		this.f = f;
 	}
 	
 	@Override
@@ -65,6 +72,13 @@ public class Pessoas {
 		}
 		return representacao;
 	}
+
+	public void setProfessor(int siape, String[] disciplinas){
+		//this.f = f;
+	}
 	
-	
+	public String toStringBasico(){
+		String representacao = nome + " - " + cpf;
+		return representacao;
+	}
 }

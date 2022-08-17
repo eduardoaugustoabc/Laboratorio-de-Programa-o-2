@@ -1,5 +1,6 @@
 package sapo.atividades;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,6 +16,8 @@ public class Atividade {
 	private String meuHashCode;
 	private String status;
 	private Map<String, Tarefa> tarefas;
+	private List<String> nomesTarefas;
+	private List<String> idsTarefas;
 	
 	/**
 	 * Construtor padrão, criando uma atividade com suas respectivas
@@ -163,5 +166,30 @@ public class Atividade {
 	
 	public void setMeuHashCode(String ans) {
 		this.meuHashCode = ans;
+	}
+	
+	public void adicionaTarefa(String idTarefa, Tarefa t) {
+		this.tarefas.put(idTarefa, t);
+	}
+
+	public String getCpf(){
+		return this.cpf;
+	}
+
+	public void setCpf(String novoCpf) {
+		this.cpf = novoCpf;
+	}
+
+	public void adicionaListas(String nome, String id){
+		this.nomesTarefas.add(nome);
+		this.idsTarefas.add(id);
+	}
+
+	public List<String> getNomesTarefas(){
+		return this.nomesTarefas;
+	}
+
+	public List<String> getIdsTarefas(){
+		return this.idsTarefas;
 	}
 }

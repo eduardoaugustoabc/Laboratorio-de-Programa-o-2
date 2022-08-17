@@ -24,8 +24,6 @@ public class AtividadeService {
 	private AtividadesRepository ar;
 	private Map<String, Atividade> repositorioAtividades;
 	private int concluidas;
-	private List<String> nomesTarefas;
-	private List<String> idsTarefas;
 	private PessoasService ps;
 	
 	/**
@@ -79,7 +77,7 @@ public class AtividadeService {
 			if (!atv.getStatus().equals("encerrada")) {
 				atv.setStatus("encerrada");
 			}else {
-				throw new IllegalArgumentException("Atividade j� encerrada!");
+				throw new IllegalArgumentException("Atividade já encerrada!");
 			}
 		}else {
 			throw new IllegalArgumentException("Atividade possui tarefas pendentes!");
@@ -114,8 +112,17 @@ public class AtividadeService {
 		if (!atv.getStatus().equals("aberta")) {
 			atv.setStatus("aberta");
 		}else {
-			throw new IllegalArgumentException("Atividade j� aberta!");
+			throw new IllegalArgumentException("Atividade já aberta!");
 		}
+	}
+
+	public String listaTarefas(String atividadeId) {
+		String res = "";
+		Atividade atv = this.repositorioAtividades.get(atividadeId);
+		for (int i = atv.getNomesTarefas().size() - 1; i > atv.getNomesTarefas().size() - 4; i--) {
+			res += "- " +  atv.getNomesTarefas().get(i) + " - " + atv.getIdsTarefas().get(i) + "\n";
+		}
+		return res;
 	}
 	
 	/**
@@ -128,12 +135,13 @@ public class AtividadeService {
 		String exibicao = "";
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		String hashCompleto = this.completaHashCode(atv);
-		exibicao += hashCompleto + ": " + atv.getNome() + "\n Respons�vel: ";
-		exibicao += "pessoa \n" + "=== \n" + atv.getDescricao() + "\n === \\n";
+		String responsavel = this.ps.getPessoa(atv.getCpf()).toStringBasico();
+		exibicao += hashCompleto + ": " + atv.getNome() + "\n Responsável: ";
+		exibicao += responsavel + "\n" + "=== \n" + atv.getDescricao() + "\n === \\n";
 		exibicao += "Tarefas: " + Integer.toString(this.concluidas) + "/";
 		exibicao += Integer.toString(atv.getTarefas().size()) + "\n";
-		String exibition = atv.toString();
-		return exibition;
+		exibicao += listaTarefas(atividadeId);
+		return exibicao;
 	}
 	
 	/**
@@ -144,6 +152,11 @@ public class AtividadeService {
 	public void alterarDescricaoAtividade(String atividadeId,String descricao) {
 		Atividade atv = this.repositorioAtividades.get(atividadeId);
 		atv.setDescricao(descricao);
+	}
+
+	public void alterarResponsavelAtividade(String atividadeId, String cpf) {
+		Atividade atv = this.repositorioAtividades.get(atividadeId);
+		atv.setCpf(cpf);
 	}
 	
 	/**
@@ -161,22 +174,12 @@ public class AtividadeService {
 		Tarefa tf1 = new Tarefa(nome, habilidades);
 		trfId = atividadeId + "-" + Integer.toString(atv.getTarefas().size());
 		if (atv.getStatus().equals("aberta")) {
-			atv.getTarefas().put(trfId, tf1);
-			this.nomesTarefas.add(tf1.getNome());
-			this.idsTarefas.add(trfId);
+			atv.adicionaTarefa(trfId, tf1);
+			atv.adicionaListas(tf1.getNome(), trfId);
 		}else {
-			throw new IllegalArgumentException("Atividade n�o est� aberta!");
+			throw new IllegalArgumentException("Atividade não está aberta!");
 		}
 		return trfId;
-	}
-	
-	//TEM QUE ESTAR EM ATIVIDADE PRAS TAREFAS SEREM SO DE UMA ATIVIDADE
-	public String listaTarefas() {
-		String res = "";
-		for (int i = this.nomesTarefas.size() - 1; i > this.nomesTarefas.size() - 4; i--) {
-			res += "- " +  this.nomesTarefas.get(i) + " - " + this.idsTarefas.get(i) + "\n";
-		}
-		return res;
 	}
 	
 	/**
@@ -218,7 +221,7 @@ public class AtividadeService {
 		if (trf.getConcluido() == false) {
 			trf.aumentarHoras(horas);
 		}else {
-			throw new IllegalArgumentException("Tarefa j� conclu�da!");
+			throw new IllegalArgumentException("Tarefa já concluída!");
 		}
 	}
 	
@@ -235,7 +238,7 @@ public class AtividadeService {
 		if (trf.getConcluido() == false) {
 			trf.removerHoras(horas);
 		}else {
-			throw new IllegalArgumentException("Tarefa j� conclu�da!");
+			throw new IllegalArgumentException("Tarefa já concluída!");
 		}
 	}
 	
@@ -263,5 +266,21 @@ public class AtividadeService {
 		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
 		Atividade atv = this.repositorioAtividades.get(idAtv);
 		atv.removerTarefa(idTarefa);
+	}
+	
+	public void associarPessoaTarefa(String cpf, String idTarefa){
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		trf.associaPessoa(cpf);
+	}
+
+	public void removerPessoaTarefa(String cpf, String idTarefa){
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		trf.removePessoa(cpf);
 	}
 }

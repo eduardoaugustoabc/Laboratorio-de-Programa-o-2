@@ -1,11 +1,14 @@
 package sapo.atividades;
 
+import java.util.List;
+
 public class Tarefa {
 	
 	private int duracao;
 	private String nome;
 	private String[] habilidades;
 	private boolean concluido;
+	private List<String> cpfs;
 	
 	public Tarefa(String nome, String[] habilidades) {
 		this.nome = nome;
@@ -40,5 +43,13 @@ public class Tarefa {
 	
 	public void setConcluido() {
 		this.concluido = true;
+	}
+
+	public void associaPessoa(String cpf){
+		this.cpfs.add(cpf);
+	}
+
+	public void removePessoa(String cpf){
+		this.cpfs.remove(cpf);
 	}
 }
