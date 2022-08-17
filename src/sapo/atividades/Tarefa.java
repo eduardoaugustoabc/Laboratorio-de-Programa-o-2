@@ -1,5 +1,7 @@
 package sapo.atividades;
 
+import java.util.ArrayList;
+
 public class Tarefa {
 	
 	private int duracao;
@@ -40,5 +42,15 @@ public class Tarefa {
 	
 	public void setConcluido() {
 		this.concluido = true;
+	}
+	
+	public ArrayList<String> getTermos(){
+		ArrayList<String> representacao = new ArrayList<String>();
+		String[] nomeSplit = this.nome.split(" ");
+		for(int i=0; i < nomeSplit.length;i++) {
+		
+			representacao.add(nomeSplit[i]);
+		}
+		return representacao;
 	}
 }

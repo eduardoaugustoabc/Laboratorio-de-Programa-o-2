@@ -1,17 +1,19 @@
 package sapo;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PessoasService {
 	
-	private Map<String, Pessoas> repositorioPessoas;
+	private PessoasRepository repositorioPessoas = new PessoasRepository();
 	
 	public PessoasService() {
 		
 	}
 	
 	public void cadastrarPessoa(String cpf, String nome , String[] habilidades) {
-		this.repositorioPessoas.put(nome, new Pessoas(cpf,nome,habilidades));
+		Pessoas pessoa = new Pessoas(cpf,nome,habilidades);
+		this.repositorioPessoas.put(cpf, pessoa);
 	}
 	
 	public String exibirPessoa(String cpf) {
@@ -31,7 +33,7 @@ public class PessoasService {
 	}
 	
 	public void adicionarComentarioPessoa(String cpf, String comentario, String autorCpf) {
-		String nomeAutor = this.repositorioPessoas.get(autorCpf).getNome();
+		
 		this.repositorioPessoas.get(cpf).adicionarComentarioPessoa(autorCpf, comentario);
 	}
 	
@@ -40,6 +42,10 @@ public class PessoasService {
 	}
 	
 	public Map<String, Pessoas> getRepositorio(){
-		return this.repositorioPessoas;
+		return this.repositorioPessoas.getMap();
+	}
+	
+	public ArrayList<Pessoas> busca(String termos) {
+		return this.repositorioPessoas.busca(termos);
 	}
 }

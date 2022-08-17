@@ -1,5 +1,7 @@
 package sapo;
 
+import java.util.ArrayList;
+
 public class PessoasController {
 	
 	private PessoasService service;
@@ -9,7 +11,13 @@ public class PessoasController {
 	}
 	
 	public void cadastrarPessoa(String cpf, String nome , String[] habilidades) {
-		this.service.cadastrarPessoa(cpf, nome, habilidades);
+		
+		if (cpf.equals("") || nome.equals("")) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			this.service.cadastrarPessoa(cpf, nome, habilidades);
+		}
 	}
 	
 	public String exibirPessoa(String cpf) {
@@ -33,5 +41,13 @@ public class PessoasController {
 	
 	public String listarComentariosPessoa(String cpf) {
 		return this.service.listarComentariosPessoa(cpf);
+	}
+	
+	public PessoasService getService() {
+		return this.service;
+	}
+	
+	public ArrayList<Pessoas> busca(String termos) {
+		return this.service.busca(termos);
 	}
 }

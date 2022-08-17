@@ -1,5 +1,6 @@
 package sapo.atividades;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -264,4 +265,18 @@ public class AtividadeService {
 		Atividade atv = this.repositorioAtividades.get(idAtv);
 		atv.removerTarefa(idTarefa);
 	}
+	
+	public ArrayList<Tarefa> buscaTarefas(String id ,String termos){
+		return this.ar.buscaTarefas(id, termos);
+	}
+	
+	public ArrayList<Tarefa> buscaTarefas(String termos){
+		return this.ar.buscaTarefas(termos);
+	}
+	
+	public ArrayList<Atividade> buscaAtividade(String termos) {
+		return this.ar.buscaAtividade(termos);
+	}
+	
+	
 }

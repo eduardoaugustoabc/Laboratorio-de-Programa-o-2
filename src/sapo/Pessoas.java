@@ -13,6 +13,7 @@ public class Pessoas {
 		this.cpf = cpf;
 		this.habilidades = habilidades;
 		this.nome = nome;
+		this.comentarios = new ArrayList();
 		
 	}
 	
@@ -55,14 +56,35 @@ public class Pessoas {
 	}
 	
 	public void adicionarComentarioPessoa(String autor, String descricao) {
-		this.comentarios.add(new Comentario(autor,descricao).toString());
+		Comentario coment = new Comentario(autor,descricao);
+		
+		this.comentarios.add(coment.toString());
 	}
 	
 	public String listaComentarios() {
-		String representacao = nome + " - " + cpf;
+		String representacao = nome + " - " + cpf + "\n" + "Comentários:";
 		for(int a = 0;a< this.comentarios.size();a ++) {
 			representacao = representacao + "\n" + this.comentarios.get(a);
 		}
+		return representacao;
+	}
+	
+	public String[] getHabilidades(){
+		return this.habilidades;
+	}
+	
+	public ArrayList<String> getTermos() {
+		ArrayList<String> representacao = new ArrayList<String>();
+		representacao.add(this.nome);
+		representacao.add(this.cpf);
+		for(int i=0; i < this.habilidades.length;i++) {
+			String[] habilidade = this.habilidades[i].split(" ");
+			for(int j = 0; j < habilidade.length;j ++) {
+				representacao.add(habilidade[j]);
+			}
+		}
+		
+		
 		return representacao;
 	}
 	
