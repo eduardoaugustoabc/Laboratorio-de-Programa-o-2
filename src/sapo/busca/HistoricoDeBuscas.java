@@ -1,7 +1,7 @@
 package sapo.busca;
 
 import java.util.ArrayList; 
-;
+
 public class HistoricoDeBuscas {
 	
 	private ArrayList<Busca> historico;

@@ -1,6 +1,7 @@
 package sapo.busca;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import sapo.*;
 import sapo.atividades.*;
@@ -20,6 +21,7 @@ public class BuscaService {
 	public ArrayList<Pessoas> exibirPessoas(String termos){
 		ArrayList<Pessoas> pessoas =  this.ps.busca(termos);
 		this.historico.adicionaBusca(new BuscaPessoas(pessoas));
+		
 		return pessoas;
 	}
 	
@@ -31,7 +33,7 @@ public class BuscaService {
 	
 	public ArrayList<Tarefa> buscarTarefa(String termos){
 		ArrayList<Tarefa> tarefas = this.as.buscaTarefas(termos);
-		this.historico.adicionaBusca(new BuscaTarefa(tarefas));
+		
 		return tarefas;
 	}
 	
