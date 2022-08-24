@@ -35,6 +35,9 @@ public class Atividade {
 		this.cpf = cpf;
 		this.status = "aberta";
 		this.meuHashCode = this.meuHashCode();
+		this.tarefas = new HashMap<String, Tarefa>();
+		this.nomesTarefas = new ArrayList<String>();
+		this.idsTarefas = new ArrayList<String>();
 		this.tarefasListadas = new ArrayList<Tarefa>();
 		this.tarefas = new HashMap<String,Tarefa>();
 		this.idsTarefas = new ArrayList<String>();
@@ -205,6 +208,7 @@ public class Atividade {
 	public List<String> getIdsTarefas(){
 		return this.idsTarefas;
 	}
+
 	public ArrayList<String> getTermos() {
 		ArrayList<String> representacao = new ArrayList<String>();
 		representacao.add(this.meuHashCode);

@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sapo.pessoas.Pessoas;
+import sapo.pessoas.PessoasService;
 
 public class Tarefa {
 	
+
 	protected int duracao;
 	protected String nome;
 	protected String[] habilidades;
@@ -15,12 +17,17 @@ public class Tarefa {
 	protected ArrayList<String> cpfs;
 	protected String codigo;
 	
+	private PessoasService ps;
+	
+
+
 	public Tarefa(String nome, String[] habilidades) {
 		this.nome = nome;
 		this.habilidades = habilidades;
 		this.duracao = 0;
 		this.concluido = false;
 		this.cpfs = new ArrayList<String>();
+		this.ps = new PessoasService();
 	}
 	
 	public String getNome() {
@@ -60,13 +67,21 @@ public class Tarefa {
 	}
 
 	public void associaPessoa(String cpf){
-		
-		
+		//Pessoas ex = this.ps.getRepositorio().get(cpf);
+		//ex.adicionaTarefa(this.nome);
 		this.cpfs.add(cpf);
 	}
 
 	public void removePessoa(String cpf){
 		this.cpfs.remove(cpf);
+	}
+
+	public int getDuracao(){
+		return this.duracao;
+	}
+
+	public List<String> getEquipe(){
+		return this.cpfs;
 	}
 	
 	public ArrayList<String> getTermos(){
