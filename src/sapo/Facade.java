@@ -5,13 +5,9 @@ import java.util.Map;
 
 import sapo.atividades.Atividade;
 import sapo.atividades.AtividadeService;
-<<<<<<< HEAD
 
 import sapo.atividades.Tarefa;
-=======
 import sapo.atividades.Tarefa;
-
->>>>>>> 48ab00072c5d6638168f58212308286a32128407
 import sapo.busca.BuscaService;
 import sapo.pessoas.Pessoas;
 import sapo.pessoas.PessoasService;
@@ -27,11 +23,7 @@ public class Facade {
 		this.ps = ps;
 		this.bs = bs;
 	}
-	
-<<<<<<< HEAD
-=======
 
->>>>>>> 48ab00072c5d6638168f58212308286a32128407
 	public String completaHashCode(Atividade a) {
 		return this.as.completaHashCode(a);
 	}
@@ -169,13 +161,10 @@ public class Facade {
 		this.as.removerPessoaTarefa(cpf, idTarefa);
 	}
 	
-<<<<<<< HEAD
 	/**public Map<String, Atividade> getRepositorio(){
 		return this.getRepositorio();
 	}*/
-=======
-	
->>>>>>> 48ab00072c5d6638168f58212308286a32128407
+
 	
 	public String  CadastraTarefaGerencial(String atividadeId,String nome, String[] habilidades, String[] idTarefas) {
 		return this.CadastraTarefaGerencial(atividadeId, nome, habilidades, idTarefas);
@@ -224,9 +213,6 @@ public class Facade {
 	
 	public String exibeHistoricoBuscas(int index){
 		return this.exibeHistoricoBuscas(index);
-<<<<<<< HEAD
-=======
 
->>>>>>> 48ab00072c5d6638168f58212308286a32128407
 	}
 }
