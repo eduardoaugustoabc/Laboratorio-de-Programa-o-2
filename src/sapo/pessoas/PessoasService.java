@@ -1,6 +1,7 @@
 package sapo.pessoas;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class PessoasService {
@@ -13,9 +14,7 @@ public class PessoasService {
 	}
 	
 	public void cadastrarPessoa(String cpf, String nome , String[] habilidades) {
-<<<<<<< HEAD:src/sapo/PessoasService.java
 		this.repositorioPessoas.put(cpf, new Pessoas(cpf,nome,habilidades));
-=======
 		if (cpf.equals("") || nome.equals("")) {
 			throw new IllegalArgumentException();
 		}
@@ -25,7 +24,6 @@ public class PessoasService {
 			Pessoas pessoa = new Pessoas(cpf,nome,habilidades);
 			this.repositorioPessoas.put(cpf, pessoa);
 		}
->>>>>>> 1e5b54d82d7d98e2d010480f826226dac17a169a:src/sapo/pessoas/PessoasService.java
 	}
 	
 	public String exibirPessoa(String cpf) {
@@ -69,11 +67,13 @@ public class PessoasService {
 
 	public void cadastrarAluno(String cpf, String nome, String matr, int periodo, String[] habilidades){
 		Pessoas aluno = new Pessoas(cpf, nome, habilidades, new Aluno(matr, periodo));
+		aluno.setAuxiliar(2);
 		this.repositorioPessoas.put(cpf, aluno);
 	}
 
 	public void cadastrarProfessor(String cpf, String nome, int siape, String[] disciplinas){
 		Pessoas professor = new Pessoas(cpf, nome, disciplinas, new Professor(siape, disciplinas));
+		professor.setAuxiliar(1);
 		this.repositorioPessoas.put(cpf, professor);
 	}
 
@@ -89,10 +89,18 @@ public class PessoasService {
 
 	public void removerFuncao(String cpf){
 		Pessoas atual = this.getPessoa(cpf);
-		atual.removerFuncao();
+		atual.setAuxiliar(0);
 	}
 
 	public Pessoas getPessoa(String cpf){
 		return this.repositorioPessoas.get(cpf);
 	}
+	
+	/**public List<String> listarPessoas() {
+		List<String> ans = new ArrayList();
+		List<Pessoas> lista = this.repositorioPessoas.getListaPessoas();
+		for (int i = 0; i < this.repositorioPessoas.getTamanho(); i++) {
+			ans.add(lista.get(i).)
+		}
+	}*/
 }

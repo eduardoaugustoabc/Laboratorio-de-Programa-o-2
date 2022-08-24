@@ -2,6 +2,7 @@ package sapo.atividades;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,6 +35,9 @@ public class Atividade {
 		this.cpf = cpf;
 		this.status = "aberta";
 		this.meuHashCode = this.meuHashCode();
+		this.tarefas = new HashMap<String, Tarefa>();
+		this.nomesTarefas = new ArrayList<String>();
+		this.idsTarefas = new ArrayList<String>();
 		this.tarefasListadas = new ArrayList<Tarefa>();
 	}
 	
@@ -50,8 +54,8 @@ public class Atividade {
 			if (counter > 2) {
 				break;
 			}
-			if (!teste[i].equals("a") || !teste[i].equals("e") || !teste[i].equals("i") || !teste[i].equals("o") || !teste[i].equals("u")) {
-				codigo += teste[i];
+			if (!teste[i].equals("a") && !teste[i].equals("e") && !teste[i].equals("i") && !teste[i].equals("o") && !teste[i].equals("u")) {
+				codigo += teste[i].toUpperCase();
 				counter += 1;
 			}
 		}
@@ -195,6 +199,7 @@ public class Atividade {
 	public List<String> getIdsTarefas(){
 		return this.idsTarefas;
 	}
+
 	public ArrayList<String> getTermos() {
 		ArrayList<String> representacao = new ArrayList<String>();
 		representacao.add(this.meuHashCode);
