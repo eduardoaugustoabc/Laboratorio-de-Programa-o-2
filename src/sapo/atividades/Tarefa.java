@@ -13,8 +13,10 @@ public class Tarefa {
 	private String nome;
 	private String[] habilidades;
 	private boolean concluido;
-	private List<String> cpfs;
+	//private List<String> cpfs;
 	private PessoasService ps;
+	private ArrayList<String> cpfs;
+	private String codigo;
 	
 	public Tarefa(String nome, String[] habilidades) {
 		this.nome = nome;
@@ -35,6 +37,10 @@ public class Tarefa {
 	
 	public void setHabilidades(String[] habilidades) {
 		this.habilidades = habilidades;
+	}
+	
+	public String[] getHabilidades() {
+		return this.habilidades;
 	}
 	
 	public void aumentarHoras(int horas) {
@@ -71,10 +77,6 @@ public class Tarefa {
 		return this.cpfs;
 	}
 	
-	public String[] getHabilidades(){
-		return this.habilidades;
-	}
-	
 	public ArrayList<String> getTermos(){
 		ArrayList<String> representacao = new ArrayList<String>();
 		String[] nomeSplit = this.nome.split(" ");
@@ -83,5 +85,35 @@ public class Tarefa {
 			representacao.add(nomeSplit[i]);
 		}
 		return representacao;
+	}
+	
+	public Double calculaSimilaridade(Pessoas trf) {
+		Double similaridade = 0.0;
+		ArrayList<String> habilidades = new ArrayList<String>();
+		for(int a = 0 ; a< this.habilidades.length;a++) {
+			habilidades.add(this.habilidades[a]);
+		}
+		for(int i =0; i < trf.getHabilidades().length; i ++) {
+			if(habilidades.contains(trf.getHabilidades()[i])) {
+				similaridade ++;
+			}
+		}
+		
+		if(this.concluido == true) {
+			similaridade = null;
+		}
+		
+		if(this.cpfs.size() == 0) {
+			similaridade += 0.1;
+		}
+		return similaridade;
+	}
+	
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+	
+	public String getCodigo() {
+		return this.codigo;
 	}
 }

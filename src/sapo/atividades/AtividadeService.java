@@ -2,8 +2,10 @@ package sapo.atividades;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import sapo.pessoas.*;
 
 
@@ -26,15 +28,18 @@ public class AtividadeService {
 	private Map<String, Atividade> repositorioAtividades;
 	private int concluidas;
 	private PessoasService ps;
+	private ArrayList<Atividade> atividadesListadas;
 	
 	/**
 	 * Construtor padrão, criando também um PessoasService para auxiliá-lo
 	 * a realizar as operações das atividades que interagem com alguma Pessoa,
 	 * bem como preparando o repositório de atividades.
 	 */
-	public AtividadeService() {
+	public AtividadeService(PessoasService ps) {
 		this.repositorioAtividades = new HashMap<String, Atividade>();
 		this.ps = new PessoasService();
+		this.ps = ps;
+		this.atividadesListadas = new ArrayList<Atividade>();
 		this.ar = new AtividadesRepository();
 	}
 	
@@ -63,8 +68,12 @@ public class AtividadeService {
 	 */
 	public String cadastrarAtividade(String nome, String descricao, String cpf) {
 		Atividade atv1 = new Atividade(nome, descricao, cpf);
-		this.repositorioAtividades.put(ar.completaHashCode(atv1), atv1);
+		String uso = ar.completaHashCode(atv1); 
+		
+		this.repositorioAtividades.put(uso, atv1);
+		this.atividadesListadas.add(atv1);
 		return ar.completaHashCode(atv1);
+		
 	}
 	
 	/**
@@ -192,12 +201,16 @@ public class AtividadeService {
 		}else {
 			trfId = atividadeId + "-" + "0";
 		}
+	
+		trfId = atividadeId + "-" + Integer.toString(atv.getTarefas().size());
 		if (atv.getStatus().equals("aberta")) {
+			tf1.setCodigo(trfId);
 			atv.adicionaTarefa(trfId, tf1);
 			atv.adicionaListas(tf1.getNome(), trfId);
 		}else {
 			throw new IllegalArgumentException("Atividade não está aberta!");
 		}
+		
 		return trfId;
 	}
 	
@@ -330,6 +343,8 @@ public class AtividadeService {
 		}else {
 			throw new IllegalArgumentException("Pessoa já associada!");
 		}
+		
+		trf.associaPessoa(cpf);
 	}
 
 	public void removerPessoaTarefa(String cpf, String idTarefa){
@@ -340,23 +355,47 @@ public class AtividadeService {
 		trf.removePessoa(cpf);
 	}
 
-	public ArrayList<Tarefa> buscaTarefas(String id ,String termos){
-		return this.ar.buscaTarefas(id, termos);
-	}
-	
-	public ArrayList<Tarefa> buscaTarefas(String termos){
-		return this.ar.buscaTarefas(termos);
-	}
-	
 	public ArrayList<Atividade> buscaAtividade(String termos) {
-		return this.ar.buscaAtividade(termos);
+		String[] termosArray = termos.split(" ");
+		ArrayList<Atividade> atividadeTermos = new ArrayList<Atividade>();
+		
+		atividadeTermos.addAll(this.atividadesListadas);
+		Atividade[] atividade = new Atividade[atividadeTermos.size()];
+		for(int q = 0 ; q < atividadeTermos.size(); q ++) {
+			
+			atividade[q] = atividadeTermos.get(q);
+		}
+		for(int z = 0 ; z < atividade.length; z ++) {
+			for(int u = 0; u < termosArray.length; u++) {
+				if(atividade[z] != null) {
+					if(!atividade[z].getTermos().contains(termosArray[u].toLowerCase())) {
+						atividade[z] = null;
+					}
+				}
+			}
+			
+			
+		}
+		
+		ArrayList<Atividade> atividadeFim = new ArrayList<Atividade>();
+		for(int q = 0 ; q < atividade.length; q ++) {
+			
+			if ((atividade[q] != null)) {
+				
+				atividadeFim.add(atividade[q]);
+		
+			}
+		}
+		return atividadeFim;
+		
+		
 	}
 	
 	public Map<String, Atividade> getRepositorio(){
 		return this.repositorioAtividades;
 	}
 	
-	public int exibirNivel(String cpf) {
+	/**public int exibirNivel(String cpf) {
 		int funcao = this.ps.getRepositorio().get(cpf).getAuxiliar();
 		Pessoas pessoa = this.ps.getRepositorio().get(cpf);
 		if (funcao == 0) {
@@ -365,7 +404,7 @@ public class AtividadeService {
 			int nivel = this.concluidas + andamento;
 		}
 			return nivel;
-		/**}else if (funcao == 1){
+		}else if (funcao == 1){
 			int tarefasFaltando = pessoa.getTarefas().size() - this.concluidas;
 			int andamento = tarefasFaltando / 4;
 			//TAREFAS QUE BATEM COM A HABILIDADE DO PROFESSOR
@@ -377,6 +416,127 @@ public class AtividadeService {
 			for (String habilidade : habilidades) {
 				
 			}
-		}*/
+		}
+	}*/
+
+	public ArrayList<Tarefa> buscaTarefas(String termos) {
+		String[] termosArray = termos.split(" ");
+		ArrayList<Tarefa> tarefasTermos = new ArrayList<Tarefa>();
+		
+		for(int w = 0 ; w < this.atividadesListadas.size(); w ++) {
+			
+			for(int j = 0; j < this.atividadesListadas.get(w).getTarefas().size(); j++) {
+				tarefasTermos.add(this.atividadesListadas.get(w).getTarefasListada().get(j));
+			}
+		
+		}
+		Tarefa[] tarefas = new Tarefa[tarefasTermos.size()];
+		for(int s = 0; s < tarefasTermos.size(); s ++) {
+			
+			tarefas[s] = tarefasTermos.get(s);
+		}
+		
+			
+		for(int j = 0; j < tarefasTermos.size(); j++) {
+			for(int u = 0; u < termosArray.length; u++) {
+				if(!tarefasTermos.get(j).getTermos().contains(termosArray[u].toLowerCase())) {
+					tarefas[j] = null;
+				}
+			}
+		}
+		
+		ArrayList<Tarefa> tarefaFim = new ArrayList<Tarefa>();
+		for(int q = 0 ; q < tarefas.length; q ++) {
+			
+			if ((tarefas[q] != null)) {
+				
+				tarefaFim.add(tarefas[q]);
+		
+			}
+		}
+		
+		return tarefasTermos;
+		
+		
 	}
+	
+	public ArrayList<Tarefa> buscaTarefas(String id ,String termos) {
+		String[] termosArray = termos.split(" ");
+		ArrayList<Tarefa> tarefasTermos = new ArrayList<>();
+		
+
+		for(int j = 0; j < this.repositorioAtividades.get(id).getTarefas().size(); j++) {
+			tarefasTermos.add(this.repositorioAtividades.get(id).getTarefasListada().get(j));
+		}
+		
+		Tarefa[] tarefas = new Tarefa[tarefasTermos.size()];
+		for(int s = 0; s < tarefasTermos.size(); s ++) {
+			
+			tarefas[s] = tarefasTermos.get(s);
+		}
+			
+		for(int j = 0; j < tarefasTermos.size(); j++) {
+			for(int u = 0; u < termosArray.length; u++) {
+				if(!tarefasTermos.get(j).getTermos().contains(termosArray[u].toLowerCase())) {
+					tarefas[j] = null;
+				}
+			}
+		}
+		
+		ArrayList<Tarefa> tarefaFim = new ArrayList<Tarefa>();
+		for(int q = 0 ; q < tarefas.length; q ++) {
+			
+			if ((tarefas[q] != null)) {
+				
+				tarefaFim.add(tarefas[q]);
+		
+			}
+		}
+		
+		
+		return tarefaFim;
+		
+		
+	}
+	
+	public ArrayList<Tarefa> sugerirTarefas(String id) {
+	
+		Pessoas pessoa = this.ps.getPessoa(id);
+		ArrayList<Tarefa> tarefas = new ArrayList<Tarefa>();
+		Tarefa guardada;
+		
+		
+		for(int w = 0 ; w < this.atividadesListadas.size(); w ++) {
+			
+			for(int j = 0; j < this.atividadesListadas.get(w).getTarefas().size(); j++) {
+				if(this.atividadesListadas.get(w).getTarefasListada().get(j).calculaSimilaridade(pessoa) != null) {
+					tarefas.add(this.atividadesListadas.get(w).getTarefasListada().get(j));
+				}
+			}
+		}
+		
+		for(int l = 0 ; l < tarefas.size(); l ++) {
+			
+			for(int p = 0; p < tarefas.size(); p++) {
+				if(tarefas.get(p).calculaSimilaridade(pessoa) > tarefas.get(l).calculaSimilaridade(pessoa)) {
+					guardada = tarefas.get(l);
+					tarefas.set(l, tarefas.get(p));
+					tarefas.set(p, guardada);
+					
+				}
+				
+				if(tarefas.get(p).calculaSimilaridade(pessoa) == tarefas.get(l).calculaSimilaridade(pessoa)) {
+					if (tarefas.get(p).getCodigo().compareTo(tarefas.get(p).getCodigo()) > 0 ) {
+					guardada = tarefas.get(l);
+					tarefas.set(l, tarefas.get(p));
+					tarefas.set(p, guardada);
+					}
+				}
+				
+			}
+		}
+		
+		return tarefas;
+	}
+
 }

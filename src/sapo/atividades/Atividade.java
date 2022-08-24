@@ -39,6 +39,9 @@ public class Atividade {
 		this.nomesTarefas = new ArrayList<String>();
 		this.idsTarefas = new ArrayList<String>();
 		this.tarefasListadas = new ArrayList<Tarefa>();
+		this.tarefas = new HashMap<String,Tarefa>();
+		this.idsTarefas = new ArrayList<String>();
+		this.nomesTarefas = new ArrayList<String>();
 	}
 	
 	/**
@@ -48,7 +51,7 @@ public class Atividade {
 	 */
 	public String meuHashCode() {
 		String codigo = "";
-		String[] teste = this.nome.split("");
+		String[] teste = this.nome.toLowerCase().split("");
 		int counter = 0;
 		for (int i = 0; i < teste.length; i++) {
 			if (counter > 2) {
@@ -67,6 +70,7 @@ public class Atividade {
 				}
 			}
 		}
+		
 		return codigo;
 	}
 	
@@ -127,6 +131,7 @@ public class Atividade {
 	 * @return as tarefas da atividade.
 	 */
 	public Map<String, Tarefa> getTarefas() {
+		
 		return this.tarefas;
 	}
 	
@@ -176,7 +181,10 @@ public class Atividade {
 	}
 	
 	public void adicionaTarefa(String idTarefa, Tarefa t) {
+		
 		this.tarefas.put(idTarefa, t);
+		this.tarefasListadas.add(t);
+		
 	}
 
 	public String getCpf(){
@@ -203,20 +211,20 @@ public class Atividade {
 	public ArrayList<String> getTermos() {
 		ArrayList<String> representacao = new ArrayList<String>();
 		representacao.add(this.meuHashCode);
-		String codigo = this.meuHashCode.substring(0, 2);
+		String codigo = this.meuHashCode.substring(0, 3);
 		representacao.add(codigo);
 		String codigo2 = this.meuHashCode.substring(4);
 		representacao.add(codigo2);
 		String[] descricaoSplit = this.descricao.split(" ");
 		for(int i=0; i < descricaoSplit.length;i++) {
 		
-			representacao.add(descricaoSplit[i]);
+			representacao.add(descricaoSplit[i].toLowerCase());
 			}
 		
 		String[] nomeSplit = this.nome.split(" ");
 		for(int i=0; i < nomeSplit.length;i++) {
 		
-			representacao.add(nomeSplit[i]);
+			representacao.add(nomeSplit[i].toLowerCase());
 		}
 		
 		

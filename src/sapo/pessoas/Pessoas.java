@@ -2,6 +2,7 @@ package sapo.pessoas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class Pessoas {
 
@@ -34,17 +35,18 @@ public class Pessoas {
 	public String toString() {
 		String representacao = nome + " - " + cpf;
 		String temp;
-		for (int i = 0; i < this.habilidades.length; i++) {
-            for (int j = i + 1; j < this.habilidades.length; j++) {
-                
-               
-                if (this.habilidades[i].compareTo(this.habilidades[j]) > 0) {
-                    temp = this.habilidades[i];
-                    this.habilidades[i] = this.habilidades[j];
-                    this.habilidades[j] = temp;
-                }
-            }
-        }
+		Arrays.sort(this.habilidades, String.CASE_INSENSITIVE_ORDER);
+//		for (int i = 0; i < this.habilidades.length; i++) {
+//            for (int j = i + 1; j < this.habilidades.length; j++) {
+//                
+//               
+//                if (this.habilidades[i].compareTo(this.habilidades[j]) > 0) {
+//                    temp = this.habilidades[i];
+//                    this.habilidades[i] = this.habilidades[j];
+//                    this.habilidades[j] = temp;
+//                }
+//            }
+//        }
 		for(int a = 0;a< this.habilidades.length;a ++) {
 			representacao = representacao + "\n" + "- " + this.habilidades[a];
 		}
@@ -120,6 +122,7 @@ public class Pessoas {
 	public ArrayList<String> getTermos() {
 		ArrayList<String> representacao = new ArrayList<String>();
 		representacao.add(this.nome);
+		String[] nomesListados = this.nome.split(" ");
 		representacao.add(this.cpf);
 		for(int i=0; i < this.habilidades.length;i++) {
 			String[] habilidade = this.habilidades[i].split(" ");
@@ -127,7 +130,9 @@ public class Pessoas {
 				representacao.add(habilidade[j]);
 			}
 		}
-		
+		for(int p = 0; p < nomesListados.length;p ++) {
+			representacao.add(nomesListados[p]);
+		}
 		
 		return representacao;
 	}

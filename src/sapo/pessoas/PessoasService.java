@@ -15,6 +15,7 @@ public class PessoasService {
 	
 	public void cadastrarPessoa(String cpf, String nome , String[] habilidades) {
 		this.repositorioPessoas.put(cpf, new Pessoas(cpf,nome,habilidades));
+		
 		if (cpf.equals("") || nome.equals("")) {
 			throw new IllegalArgumentException();
 		}
@@ -24,6 +25,7 @@ public class PessoasService {
 			Pessoas pessoa = new Pessoas(cpf,nome,habilidades);
 			this.repositorioPessoas.put(cpf, pessoa);
 		}
+
 	}
 	
 	public String exibirPessoa(String cpf) {
