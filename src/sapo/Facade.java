@@ -5,19 +5,14 @@ import java.util.Map;
 
 import sapo.atividades.Atividade;
 import sapo.atividades.AtividadeService;
-<<<<<<< HEAD
-=======
+
 import sapo.atividades.Tarefa;
->>>>>>> a3228735b22de91cfdfc8ceb97d74e632594027a
 import sapo.busca.BuscaService;
 import sapo.pessoas.Pessoas;
 import sapo.pessoas.PessoasService;
 
 public class Facade {
-<<<<<<< HEAD
-=======
-	
->>>>>>> a3228735b22de91cfdfc8ceb97d74e632594027a
+
 	private PessoasService ps;
 	private AtividadeService as;
 	private BuscaService bs;
@@ -28,7 +23,6 @@ public class Facade {
 		this.bs = bs;
 	}
 	
-<<<<<<< HEAD
 	public String completaHashCode(Atividade a) {
 		return this.as.completaHashCode(a);
 	}
@@ -155,7 +149,7 @@ public class Facade {
 	
 	public Pessoas getPessoa(String cpf){
 		return this.ps.getPessoa(cpf);
-=======
+	}
 	public void associarPessoaTarefa(String cpf, String idTarefa){
 		this.as.associarPessoaTarefa(cpf, idTarefa);
 	}
@@ -164,9 +158,9 @@ public class Facade {
 		this.as.removerPessoaTarefa(cpf, idTarefa);
 	}
 	
-	public Map<String, Atividade> getRepositorio(){
+	/**public Map<String, Atividade> getRepositorio(){
 		return this.getRepositorio();
-	}
+	}*/
 	
 	public String  CadastraTarefaGerencial(String atividadeId,String nome, String[] habilidades, String[] idTarefas) {
 		return this.CadastraTarefaGerencial(atividadeId, nome, habilidades, idTarefas);
@@ -215,6 +209,5 @@ public class Facade {
 	
 	public String exibeHistoricoBuscas(int index){
 		return this.exibeHistoricoBuscas(index);
->>>>>>> a3228735b22de91cfdfc8ceb97d74e632594027a
 	}
 }
