@@ -141,6 +141,7 @@ public class Atividade {
 		return this.tarefas.get(idTarefa);
 	}
 	
+	
 	/**
 	 * Realiza a remoção de determinada tarefa da atividade.
 	 * @param idTarefa id da tarefa a ser tratada.
@@ -231,5 +232,10 @@ public class Atividade {
 	
 	public ArrayList<Tarefa> getTarefasListada() {
 		return this.tarefasListadas;
+	}
+	
+	
+	public String toStringResumido() {
+		return this.meuHashCode + " " + this.nome;
 	}
 }

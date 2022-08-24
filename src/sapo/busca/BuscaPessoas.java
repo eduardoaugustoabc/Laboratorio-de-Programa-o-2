@@ -9,7 +9,17 @@ public class BuscaPessoas implements Busca{
 	private String tipo;
 	
 	public BuscaPessoas(ArrayList<Pessoas> pessoas) {
-		this.pessoas = new ArrayList<Pessoas>();
+		this.pessoas = pessoas;
 		this.tipo = "PESSOAS";
+	}
+	
+	@Override
+	public String representacaoBusca(){
+		String representacao = "";
+		representacao += (tipo) + "\n" ;
+		for(int a = 0; a < this.pessoas.size();a++) {
+			representacao += this.pessoas.get(a).toString() + "\n";
+		}
+		return representacao;
 	}
 }

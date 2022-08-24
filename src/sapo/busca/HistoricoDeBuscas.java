@@ -14,14 +14,14 @@ public class HistoricoDeBuscas {
 		this.historico.add(busca);
 	}
 	
-	public Busca recuperaBusca(int index) {
-		return this.historico.get(index);
+	public String recuperaBusca(int index) {
+		return this.historico.get(index).representacaoBusca();
 	}
 	
-	public ArrayList<Busca> recuperaBuscas(int numeroDeBuscas) {
-		ArrayList<Busca> buscas = new ArrayList<Busca>();
+	public String exibeBuscas(int numeroDeBuscas) {
+		String buscas = "";
 		for(int a = this.historico.size()-numeroDeBuscas; a <this.historico.size(); a++) {
-			buscas.add(this.historico.get(a));
+			buscas += (this.historico.get(a).representacaoBusca()) + "\n";
 		}
 		return buscas;
 	}

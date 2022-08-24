@@ -8,12 +8,12 @@ import sapo.pessoas.Pessoas;
 
 public class Tarefa {
 	
-	private int duracao;
-	private String nome;
-	private String[] habilidades;
-	private boolean concluido;
-	private ArrayList<String> cpfs;
-	private String codigo;
+	protected int duracao;
+	protected String nome;
+	protected String[] habilidades;
+	protected boolean concluido;
+	protected ArrayList<String> cpfs;
+	protected String codigo;
 	
 	public Tarefa(String nome, String[] habilidades) {
 		this.nome = nome;
@@ -37,6 +37,10 @@ public class Tarefa {
 	
 	public String[] getHabilidades() {
 		return this.habilidades;
+	}
+	
+	public int getHoras() {
+		return this.duracao;
 	}
 	
 	public void aumentarHoras(int horas) {
@@ -103,5 +107,14 @@ public class Tarefa {
 	
 	public String getCodigo() {
 		return this.codigo;
+	}
+	
+	@Override
+	public String toString() {
+		return this.codigo + " " + this.nome;
+	}
+	
+	public int contaTarefas() {
+		return 1;
 	}
 }

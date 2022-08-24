@@ -30,17 +30,7 @@ public class Pessoas {
 		String representacao = nome + " - " + cpf;
 		String temp;
 		Arrays.sort(this.habilidades, String.CASE_INSENSITIVE_ORDER);
-//		for (int i = 0; i < this.habilidades.length; i++) {
-//            for (int j = i + 1; j < this.habilidades.length; j++) {
-//                
-//               
-//                if (this.habilidades[i].compareTo(this.habilidades[j]) > 0) {
-//                    temp = this.habilidades[i];
-//                    this.habilidades[i] = this.habilidades[j];
-//                    this.habilidades[j] = temp;
-//                }
-//            }
-//        }
+
 		for(int a = 0;a< this.habilidades.length;a ++) {
 			representacao = representacao + "\n" + "- " + this.habilidades[a];
 		}

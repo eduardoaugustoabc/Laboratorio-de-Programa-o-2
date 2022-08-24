@@ -10,7 +10,16 @@ public class BuscaAtividade  implements Busca{
 	private String tipo;
 	
 	public BuscaAtividade(ArrayList<Atividade> atividade) {
-		this.atividade = new ArrayList<Atividade>();
+		this.atividade = atividade;
 		this.tipo = "ATIVIDADES";
 	}	
+	@Override
+	public String representacaoBusca(){
+		String representacao = "";
+		representacao += (tipo)+ "\n";
+		for(int a = 0; a < this.atividade.size();a++) {
+			representacao += (this.atividade.get(a).toStringResumido()) + "\n";
+		}
+		return representacao;
+	}
 }
