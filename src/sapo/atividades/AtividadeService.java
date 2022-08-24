@@ -76,6 +76,10 @@ public class AtividadeService {
 		
 	}
 	
+	public Map<String, Atividade> getAtiv(){
+		return this.repositorioAtividades;
+	}
+	
 	/**
 	 * Realiza o encerramento da atividade, impossibilitando-a de receber novas 
 	 * tarefas.

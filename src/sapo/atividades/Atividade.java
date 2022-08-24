@@ -153,6 +153,7 @@ public class Atividade {
 		this.tarefas.remove(idTarefa);
 	}
 	
+	
 	/**
 	 * Realiza a validação de todas as tarefas da atividade,
 	 * com o intuito de saber se estão todas concluidas ou não,
