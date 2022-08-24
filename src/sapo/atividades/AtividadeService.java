@@ -303,6 +303,29 @@ public class AtividadeService {
 		atv.removerTarefa(idTarefa);
 	}
 
+
+	public void associarPessoaTarefa(String cpf, String idTarefa){
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		if (!trf.getEquipe().contains(cpf)) {
+			trf.associaPessoa(cpf);
+		}else {
+			throw new IllegalArgumentException("Pessoa já associada!");
+		}
+		
+		trf.associaPessoa(cpf);
+	}
+
+	public void removerPessoaTarefa(String cpf, String idTarefa){
+		String[] ArrayIdAtv = idTarefa.split("-");
+		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
+		Atividade atv = this.repositorioAtividades.get(idAtv);
+		Tarefa trf = atv.getTarefa(idTarefa);
+		trf.removePessoa(cpf);
+	}
+	
 	public String listaEquipe(String idTarefa){
 		String ans = "";
 		String[] ArrayIdAtv = idTarefa.split("-");
@@ -331,28 +354,6 @@ public class AtividadeService {
 		exibicao += "Equipe:" + "\n";
 		exibicao += listaEquipe(idTarefa);
 		return exibicao;
-	}
-	
-	public void associarPessoaTarefa(String cpf, String idTarefa){
-		String[] ArrayIdAtv = idTarefa.split("-");
-		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
-		Atividade atv = this.repositorioAtividades.get(idAtv);
-		Tarefa trf = atv.getTarefa(idTarefa);
-		if (!trf.getEquipe().contains(cpf)) {
-			trf.associaPessoa(cpf);
-		}else {
-			throw new IllegalArgumentException("Pessoa já associada!");
-		}
-		
-		trf.associaPessoa(cpf);
-	}
-
-	public void removerPessoaTarefa(String cpf, String idTarefa){
-		String[] ArrayIdAtv = idTarefa.split("-");
-		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
-		Atividade atv = this.repositorioAtividades.get(idAtv);
-		Tarefa trf = atv.getTarefa(idTarefa);
-		trf.removePessoa(cpf);
 	}
 
 	public ArrayList<Atividade> buscaAtividade(String termos) {
