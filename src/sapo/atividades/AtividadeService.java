@@ -582,36 +582,6 @@ public class AtividadeService {
 		
 	}
 	
-	public String listaEquipe(String idTarefa){
-		String ans = "";
-		String[] ArrayIdAtv = idTarefa.split("-");
-		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
-		Atividade atv = this.repositorioAtividades.get(idAtv);
-		Tarefa trf = atv.getTarefa(idTarefa);
-		List<String> cpfs = trf.getEquipe();
-		for (int i = 0; i < cpfs.size(); i++) {
-			ans += this.ps.getPessoa(cpfs.get(i)).getNome() +  " - " + cpfs.get(i) + "\n";
-		}
-		return ans;
-	}
-
-	public String exibeTarefa(String idTarefa){
-		String exibicao = "";
-		String cpf = "388.567.123-65";
-		String[] palavras = {"cachorro", "sol", "sorvete","futebol"};
-		this.ps.cadastrarPessoa(cpf, "ana", palavras);
-		String[] ArrayIdAtv = idTarefa.split("-");
-		String idAtv = ArrayIdAtv[0] + "-" + ArrayIdAtv[1];
-		Atividade atv = this.repositorioAtividades.get(idAtv);
-		Tarefa trf = atv.getTarefa(idTarefa);
-		exibicao += trf.getNome() + " - " + idTarefa + "\n" + "- " + atv.getNome() + "\n";
-		//FAZER A LINHA QUE NAO ENTENDI O QUE ERA
-		exibicao += "(" + trf.getHoras() + " hora(s) executada(s))" + "\n" + "===\n";
-		exibicao += "Equipe:" + "\n";
-		exibicao += listaEquipe(idTarefa);
-		return exibicao;
-	}
-	
 	public String exibeTarefaGerencial(String idTarefa){
 		String exibicao = "";
 		String[] ArrayIdAtv = idTarefa.split("-");
